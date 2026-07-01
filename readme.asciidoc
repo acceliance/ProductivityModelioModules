@@ -1,0 +1,116 @@
+= Acceliance Productivity Modules for Modelio
+:toc: macro
+:toclevels: 3
+:sectnums:
+:icons: font
+:experimental:
+
+image:https://img.shields.io/badge/Modelio-5.x-blue[Modelio] image:https://img.shields.io/badge/licence-free%20(volume%20limited)-green[Free, volume limited] image:https://img.shields.io/badge/vendor-Acceliance-orange[Acceliance]
+
+A suite of https://www.modelio.org[Modelio] modules developed by https://www.acceliance.fr[Acceliance] that turn a single UML data model into ready-to-use technical artefacts: JPA/ORM code, SQL DDL, NEO4J metamodels, JSON Schemasdbt projects, Data Vault configurations, and AI-assisted model generation.
+
+Design your business model once in Modelio, then generate consistent, documented deliverables for every layer of your data platform.
+
+toc::[]
+
+== Free to use, with a volume limit
+
+All the modules in this repository are *free to download and use*.
+
+[IMPORTANT]
+====
+In the free mode, *each generation run is limited to a maximum of 10 model elements* (classes / tables / hubs). Beyond that limit the generation is truncated and a warning is logged — the module keeps working, it simply stops after the first 10 elements.
+
+This limit is *ideal for evaluation, learning, proofs of concept and small models*.
+====
+
+To *unlock unlimited generation* and the full capabilities of the modules, request an Acceliance licence:
+
+* Website: https://www.acceliance.fr
+* Contact Acceliance to obtain a licence key and enable full-volume generation on your projects.
+
+Once a valid licence is installed, the volume limit is removed and generation is unlimited.
+
+== Where these modules fit: a data governance strategy
+
+These modules are building blocks of an end-to-end *data governance* approach based on Modelio. The idea is to maintain a single, governed UML data model — the source of truth — and to derive every downstream technical artefact from it, keeping documentation, database schemas, code and analytics engineering aligned.
+
+To set up the complete environment (Modelio configuration, shared metamodel, governance profiles and the recommended workflow), use the companion repository:
+
+➡️ https://github.com/acceliance/ModelioForDataGovernance[github.com/acceliance/ModelioForDataGovernance]
+
+That repository explains how to install Modelio, load the governance environment and combine it with the productivity modules described below.
+
+== The modules
+
+Each module reads the elements you have enabled in your UML model (classes, attributes, associations, stereotypes) and produces a specific deliverable.
+
+=== JavaOrmGenerator
+
+Generates *Java persistence and API code* from the UML model, in tandem with the Modelio Java Designer.
+
+* *ORM / JPA generation* — `@Entity`, primary keys (`@Id`, generated or business keys), `@Column` (length, uniqueness), relationships (`@OneToMany`, `@ManyToOne`, `@ManyToMany`, `@OneToOne`, managed/back references), Hibernate `@Comment`, and configurable inheritance strategies (single fused table or joined tables).
+* *REST API generation* — OpenAPI / Swagger annotations (`@Schema`, `@Validated`, `@NotNull`, `@Size`), `oneOf` / discriminator mappings for inheritance, and stereotype-driven vendor extensions.
+* *JSON generation* — Jackson annotations (`@JsonClassDescription`, `@JsonPropertyDescription`, `@JsonIdentityInfo`) for clean serialization.
+* *Configuration dictionaries* — export the ORM / API / JSON configuration to Excel for review and bulk editing.
+* *Scoped generation* — select the artefacts to generate by use case.
+
+=== SqlGenerator
+
+Generates *SQL DDL scripts* from the UML model for the relational database of your choice.
+
+* *Tables and columns* with type mapping to the selected target database.
+* *Keys and constraints* — primary keys (including composite), foreign keys for `1:*`, `*:1` and `*:*` (automatic junction tables), `NOT NULL` and `UNIQUE` constraints.
+* *Inheritance* — foreign keys linking child tables to their parent (mother) table.
+* *Enumerations* — generation of database `enum` types.
+* *Documentation* — `COMMENT ON TABLE` / `COMMENT ON COLUMN` from the model descriptions.
+* *Options* — optional `snake_case` column naming; export the SQL configuration to Excel.
+
+=== DbtGenerator
+
+Generates a *dbt (data build tool)* project skeleton from the UML model, ready to drop into your analytics engineering workflow.
+
+* *`schema.yml`* — models, columns, data types and constraints (`primary_key`, `foreign_key`, `not_null`) plus `relationships` tests referencing other models via `ref()`.
+* *One `.sql` model per table* — staging select with typed casts and inline documentation.
+* *Keys* — business keys, inheritance keys and foreign keys derived from the model.
+* *Options* — target database type mapping and `snake_case` naming; export the configuration to Excel.
+
+=== DatavaultBuilderGenerator
+
+Generates a *Data Vault* configuration for https://www.datavault-builder.com[Datavault Builder] directly from the UML model.
+
+* *Data Vault objects* — Hubs, Satellites and Links derived from classes, attributes and associations.
+* *Dimensional satellites* — optional generation of dimensional satellites alongside business satellites.
+* *Advanced patterns* — hub aliases for self-relations, "merge in mother" for inheritance, business-key handling.
+* *Export formats* — Datavault Builder export format V1 and V2, with optional ZIP packaging and target-database selection.
+* *Round-trip* — import a model from an existing Datavault Builder database and assist database migration.
+* *Documentation* — export the configuration to Excel.
+
+=== ModelGeneratorAI
+
+Generates a *UML data model from a natural-language description* using generative AI, so you can bootstrap a model from a business brief in seconds.
+
+* *AI providers* — OpenAI (ChatGPT) and Anthropic (Claude), with configurable model and API key.
+* *GenAI Continuity* — merges the AI output into an existing model context, adding only the new classes, attributes and relations so you can iterate safely.
+* *Direct instantiation* — the generated classes, attributes, relationships and enumerations are created straight into your Modelio model.
+* *Audit trail* — every prompt and response is recorded in an audit log for traceability.
+
+== Installation
+
+. Install https://www.modelio.org[Modelio] (5.x).
+. In Modelio, open the module catalog / manager and add the `.jmdac` files from the link:modules[`modules/`] folder of this repository.
+. Select the module(s) on your project.
+. (Recommended) Set up the full governance environment from https://github.com/acceliance/ModelioForDataGovernance[ModelioForDataGovernance].
+
+[NOTE]
+====
+The modules load and run without a licence; only the generation volume is capped (see <<Free to use, with a volume limit>>). Install your Acceliance licence to remove the limit.
+====
+
+== Support and licensing
+
+For licences, full-volume activation, support or consulting on a Modelio-based data governance strategy:
+
+* https://www.acceliance.fr[www.acceliance.fr]
+
+© Acceliance — https://www.acceliance.fr. Modelio is a trademark of its respective owner.
