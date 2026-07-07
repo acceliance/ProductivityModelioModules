@@ -75,6 +75,16 @@ Generates a *dbt (data build tool)* project skeleton from the UML model, ready t
 * *Keys* — business keys, inheritance keys and foreign keys derived from the model.
 * *Options* — target database type mapping and `snake_case` naming; export the configuration to Excel.
 
+=== Neo4jGenerator
+
+Generates *Neo4j Cypher scripts* from the UML model to provision a graph database and its metamodel.
+
+* *Cypher generation* — produces both a *SCHEMA* script (nodes, relationships, properties and constraints) and a *METAMODEL* script describing the graph structure.
+* *Nodes and relationships* — labels, properties and typed relationships derived from classes, attributes and associations.
+* *Keys and typing* — business keys and per-property Cypher type mapping via the `Neo4jElement`, `BusinessKey` and `CypherType` stereotypes.
+* *Push scripts* — copy `push_schema.py`, `push_metamodel.py`, `requirements.txt` and `neo4j.env.example` into the Cypher output folder to load the generated scripts into a running Neo4j instance.
+* *Documentation* — export the configuration to Excel.
+
 === DatavaultBuilderGenerator
 
 Generates a *Data Vault* configuration for https://www.datavault-builder.com[Datavault Builder] directly from the UML model.
