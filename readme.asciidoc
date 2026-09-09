@@ -19,7 +19,7 @@ All the modules in this repository are *free to download and use*.
 
 [IMPORTANT]
 ====
-In the free mode, *each generation run is limited to a maximum of 10 model elements* (classes / tables / hubs). Beyond that limit the generation is truncated and a warning is logged — the module keeps working, it simply stops after the first 10 elements.
+In the free mode, *each generation run is limited to a maximum of 100 model elements* (classes / tables / hubs). Beyond that limit the generation is truncated and a warning is logged — the module keeps working, it simply stops after the first 100 elements.
 
 This limit is *ideal for evaluation, learning, proofs of concept and small models*.
 ====
