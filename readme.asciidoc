@@ -7,7 +7,7 @@
 
 image:https://img.shields.io/badge/Modelio-5.x-blue[Modelio] image:https://img.shields.io/badge/licence-free%20(volume%20limited)-green[Free, volume limited] image:https://img.shields.io/badge/vendor-Acceliance-orange[Acceliance]
 
-A suite of https://www.modelio.org[Modelio] modules developed by https://www.acceliance.fr[Acceliance] that turn a single UML data model into ready-to-use technical artefacts: JPA/ORM code, SQL DDL, NEO4J metamodels, JSON Schemasdbt projects, Data Vault configurations, and AI-assisted model generation.
+A suite of https://www.modelio.org[Modelio] modules developed by https://www.acceliance.fr[Acceliance] that turn a single UML data model into ready-to-use technical artefacts: JPA/ORM code, SQL DDL, NEO4J metamodels, JSON Schemas, dbt projects, Data Vault configurations, and AI-assisted model generation.
 
 Design your business model once in Modelio, then generate consistent, documented deliverables for every layer of your data platform.
 
@@ -84,6 +84,16 @@ Generates *Neo4j Cypher scripts* from the UML model to provision a graph databas
 * *Keys and typing* — business keys and per-property Cypher type mapping via the `Neo4jElement`, `BusinessKey` and `CypherType` stereotypes.
 * *Push scripts* — copy `push_schema.py`, `push_metamodel.py`, `requirements.txt` and `neo4j.env.example` into the Cypher output folder to load the generated scripts into a running Neo4j instance.
 * *Documentation* — export the configuration to Excel.
+
+=== JsonSchemaGenerator
+
+Generates a *JSON Schema (draft 2020-12)* from the UML model, starting from a chosen root class.
+
+* *Root selection* — the document root is either a single object or an array of the root class.
+* *Classes and inheritance* — one `$defs` entry per class with `additionalProperties: false`; inheritance is flattened and references to classes with subclasses become `anyOf` of the concrete ones.
+* *Associations and multiplicity* — compositions, aggregations and class-typed attributes are embedded through `$ref`; minimum multiplicity drives `required`, maximum drives `array` with `minItems` / `maxItems`.
+* *Typing* — UML primitives mapped to JSON types and formats (`date-time`, `date`, `uuid`...), enumerations exported as `enum` definitions, Modelio descriptions exported as `description`.
+* *Scoped generation* — enable members with the `JsonSchemaElement` stereotype, deploy for use cases, validate the model before generation, and script it through the module's peer API.
 
 === DatavaultBuilderGenerator
 
