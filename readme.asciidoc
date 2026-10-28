@@ -81,7 +81,9 @@ Generates *Neo4j Cypher scripts* from the UML model to provision a graph databas
 
 * *Cypher generation* — produces both a *SCHEMA* script (nodes, relationships, properties and constraints) and a *METAMODEL* script describing the graph structure.
 * *Nodes and relationships* — labels, properties and typed relationships derived from classes, attributes and associations.
-* *Keys and typing* — business keys and per-property Cypher type mapping via the `Neo4jElement`, `BusinessKey` and `CypherType` stereotypes.
+* *Keys and typing* — business keys and per-property Cypher type mapping via the `Neo4jElement` and `BusinessKey` stereotypes (`IsBusinessKey`, `CypherType` properties). A business key is only accepted on attributes, never on association ends.
+* *Constraints* — one constraint set per *root class* of each inheritance lineage (subclasses carry the root label, identity and `MERGE` are decided at the root): `IS UNIQUE` + `IS NOT NULL` for a single key, `IS NODE KEY` for a composite key.
+* *Community edition* — the `CommunityEdition` module parameter targets Neo4j Community, where existence and `NODE KEY` constraints are Enterprise-only: the generated schema then emits uniqueness constraints only (`IS UNIQUE`, composite `(n.a, n.b) IS UNIQUE`) and the header of `schema.cypher` states the targeted edition.
 * *Push scripts* — copy `push_schema.py`, `push_metamodel.py`, `requirements.txt` and `neo4j.env.example` into the Cypher output folder to load the generated scripts into a running Neo4j instance.
 * *Documentation* — export the configuration to Excel.
 
